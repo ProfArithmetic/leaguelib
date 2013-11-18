@@ -109,7 +109,7 @@ public class LeagueSummoner {
             public int compare(Object match1Obj, Object match2Obj) {
                 MatchHistoryEntry match1 = (MatchHistoryEntry)match1Obj;
                 MatchHistoryEntry match2 = (MatchHistoryEntry)match2Obj;
-                return match1.getCreationDate().compareTo(match2.getCreationDate());
+                return match2.getCreationDate().compareTo(match1.getCreationDate());
             }
         });
     }
