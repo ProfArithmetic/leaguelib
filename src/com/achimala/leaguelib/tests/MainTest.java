@@ -38,7 +38,6 @@ public class MainTest {
     private static void incrementCount() {
         lock.lock();
         count++;
-        // System.out.println("+ count = " + count);
         lock.unlock();
     }
     
@@ -53,8 +52,8 @@ public class MainTest {
     
     public static void main(String[] args) throws Exception {
         final LeagueConnection c = new LeagueConnection(LeagueServer.NORTH_AMERICA);
-        c.getAccountQueue().addAccount(new LeagueAccount(LeagueServer.NORTH_AMERICA, "3.13.xx", "lolteam0debug", args[0]));
-        final String SUMMONER_TO_LOOK_UP = "the breadmaker";
+        c.getAccountQueue().addAccount(new LeagueAccount(LeagueServer.NORTH_AMERICA, "3.14.xx", "imsixpool", args[0]));
+        final String SUMMONER_TO_LOOK_UP = "isixpool";
         
         Map<LeagueAccount, LeagueException> exceptions = c.getAccountQueue().connectAll();
         if(exceptions != null) {
@@ -68,11 +67,11 @@ public class MainTest {
         c.getSummonerService().getSummonerByName(SUMMONER_TO_LOOK_UP, new Callback<LeagueSummoner>() {
             public void onCompletion(LeagueSummoner summoner) {
                 lock.lock();
-                
+
                 System.out.println(summoner.getName() + ":");
                 System.out.println("    accountID:  " + summoner.getAccountId());
                 System.out.println("    summonerID: " + summoner.getId());
-                
+
                 incrementCount();
                 System.out.println("Getting profile data...");
                 c.getSummonerService().fillPublicSummonerData(summoner, new Callback<LeagueSummoner>() {
@@ -85,7 +84,7 @@ public class MainTest {
                         decrementCount();
                         lock.unlock();
                     }
-                    
+
                     public void onError(Exception ex) {
                         lock.lock();
                         System.out.println(ex.getMessage());
@@ -93,7 +92,7 @@ public class MainTest {
                         lock.unlock();
                     }
                 });
-                
+
                 incrementCount();
                 System.out.println("Getting leagues data...");
                 c.getLeaguesService().fillSoloQueueLeagueData(summoner, new Callback<LeagueSummoner>() {
@@ -115,7 +114,7 @@ public class MainTest {
                         decrementCount();
                         lock.unlock();
                     }
-                    
+
                     public void onError(Exception ex) {
                         lock.lock();
                         System.out.println(ex.getMessage());
@@ -123,7 +122,7 @@ public class MainTest {
                         lock.unlock();
                     }
                 });
-                
+
                 incrementCount();
                 System.out.println("Getting champ data...");
                 c.getPlayerStatsService().fillRankedStats(summoner, new Callback<LeagueSummoner>() {
@@ -131,7 +130,7 @@ public class MainTest {
                         lock.lock();
                         for(LeagueChampion champ : summoner.getRankedStats().getAllPlayedChampions())
                             System.out.println("Has played " + champ.getName());
-                        
+
                         LeagueChampion champ = LeagueChampion.getChampionWithName("Anivia");
                         Map<LeagueRankedStatType, Integer> stats = summoner.getRankedStats().getAllStatsForChampion(champ);
                         if(stats == null) {
@@ -146,7 +145,7 @@ public class MainTest {
                         decrementCount();
                         lock.unlock();
                     }
-                    
+
                     public void onError(Exception ex) {
                         lock.lock();
                         System.out.println(ex.getMessage());
@@ -154,7 +153,7 @@ public class MainTest {
                         lock.unlock();
                     }
                 });
-                
+
                 incrementCount();
                 System.out.println("Getting game data...");
                 c.getGameService().fillActiveGameData(summoner, new Callback<LeagueSummoner>() {
@@ -182,7 +181,7 @@ public class MainTest {
                         decrementCount();
                         lock.unlock();
                     }
-                    
+
                     public void onError(Exception ex) {
                         lock.lock();
                         if(ex instanceof LeagueException) {
@@ -194,7 +193,7 @@ public class MainTest {
                         lock.unlock();
                     }
                 });
-                
+
                 decrementCount();
                 lock.unlock();
             }
