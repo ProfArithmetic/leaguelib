@@ -14,13 +14,6 @@ import java.util.Map;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
-/**
- * Created with IntelliJ IDEA.
- * User: dan
- * Date: 11/22/13
- * Time: 11:29 AM
- * To change this template use File | Settings | File Templates.
- */
 public class FindLastMatch {
     private static int count = 0;
     private static ReentrantLock lock = new ReentrantLock();
